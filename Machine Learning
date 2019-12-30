@@ -1,0 +1,30 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import sklearn
+from sklearn.ensemble import RandomForestRegressor
+
+data = pd.read_csv('C:\\Users\\Imran\\Desktop\\Position_Salaries.csv')
+data
+
+real_x = data.iloc[:,1:2].values
+real_y = data.iloc[:,2].values
+real_x = real_x.reshape(-1,1)
+real_y = real_y.reshape(-1,1)
+real_x
+
+
+reg = RandomForestRegressor(n_estimators=100,random_state=0)
+reg.fit(real_x,real_y)
+
+y_pred = reg.predict([[6.5]]).reshape(-1,1)
+y_pred
+
+x_grid = np.arange(min(real_x), max(real_x), 0.01) 
+x_grid = x_grid.reshape((len(x_grid),1))
+plt.scatter(real_x,real_y, color = 'blue')
+plt.plot(x_grid,reg.predict(x_grid),color='green')
+plt.title('random forest regression')
+plt.xlabel('position')
+plt.ylabel('salaries')
+plt.show()
